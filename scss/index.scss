@@ -152,3 +152,30 @@
   @return $result;
 }
 
+
+
+
+
+// -------------------------------------
+// Deep has-key
+// -------------------------------------
+
+/// Checks whether a map has a value associated with a given nested key.
+/// ---
+/// @param {map} $map - The map to search in
+/// @param {arglist} $key - the key hierarchy to look for
+/// ---
+/// @returns {boolean}
+/// ---
+@function jigsass-deep-has-key($map, $keys...) {
+  @each $key in $keys {
+    @if (not map-has-key($map, $key)) {
+      @return false;
+    }
+
+    $map: map-get($map, $key);
+  }
+
+  @return true;
+}
+
