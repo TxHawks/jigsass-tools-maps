@@ -1,3 +1,10 @@
 language: node_js
 node_js:
   - v5
+
+branches:
+  only:
+    - master
+
+notifications:
+  email: false
