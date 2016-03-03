@@ -62,3 +62,93 @@
   @return $_value;
 }
 
+
+
+
+// -------------------------------------
+// Deep set
+// -------------------------------------
+
+/// Set a value of a key in a nested map.
+/// Nesting can go as deep as needed.
+/// ---
+/// @param {map} $map
+///   The parent map in which keys and values will be set in.
+/// @param {arglist} $keys-value...
+///   A comma-seperated list of keys to denote nesting hierarchy.
+/// @param {*} $value
+///   The value to assign to the last key in `$keys`
+/// ---
+/// @example scss
+/// // Input:
+/// $map: (
+///   key1: (
+///     key2: (
+///       existing-key: existing-value,
+///     ),
+///   ),
+/// );
+/// $map: jigsass-set($map, key1, key2, new-key, new-value);
+///
+/// // Outcome:
+/// $map: (
+///   key1: (
+///     key2: (
+///       existing-key: existing-value,
+///       new-key: new-value,
+///     ),
+///   ),
+/// );
+/// ---
+/// @returns {map}
+/// ---
+@function jigsass-set($map, $keys-value...) {
+  // Extract kesy and value from arglist.
+  $value: nth($keys-value, length($keys-value));
+  $keys: ();
+
+  @for $i from 1 through length($keys-value) {
+    $keys: if($i < length($keys-value), append($keys, nth($keys-value, $i)), $keys);
+  }
+
+  @if (type-of($map) != 'map') {
+    @error 'jigsass-set: `#{$map}` is a #{type-of($map)}, not a map.';
+  }
+
+  $maps: ($map,);
+  $result: null;
+
+  // If $keys is a single key
+  // Just merge and return
+  @if length($keys) == 1 {
+    @return map-merge($map, (nth($keys, 1): $value));
+  }
+
+
+  // Loop from the first to last key n $keys
+  // Store the associated map to this key in the $maps list
+  @for $i from 1 through length($keys) - 1 {
+    $current-key: nth($keys, $i);
+    $current-map: nth($maps, -1);
+    $current-get: map-get($current-map, $current-key);
+
+    @if $current-get == null {
+      $current-get: ();
+    }
+
+    $maps: append($maps, $current-get);
+  }
+
+  // Loop from the last map to the first one
+  // Merge it with the previous one
+  @for $i from length($maps) through 1 {
+    $current-map: nth($maps, $i);
+    $current-key: nth($keys, $i);
+    $current-val: if($i == length($maps), $value, $result);
+    $result: map-merge($current-map, ($current-key: $current-val));
+  }
+
+  // Return result
+  @return $result;
+}
+
