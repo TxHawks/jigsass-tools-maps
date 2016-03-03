@@ -1,0 +1,139 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Jigsass-tools-maps - v0.0.0</title><link rel="stylesheet" href="assets/css/main.css"><script type="text/javascript">WebFontConfig={google:{families:["Roboto:400,100,300,500:latin"]}},function(){var e=document.createElement("script");e.src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js",e.type="text/javascript",e.async="true";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}();</script><meta name="viewport" content="width=device-width"><meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"><!-- Open Graph tags --><meta property="og:title" content="Jigsass-tools-maps - SassDoc"><meta property="og:type" content="website"><meta property="og:description" content="<p>Map helper functions</p>
+"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><img class="sidebar__logo" src="assets/images/favicon.png"></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="undefined"><a href="#undefined">General</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="undefined-function"><a href="#undefined-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-name="jigsass-get" data-type="function"><a href="#function-jigsass-get">jigsass-get</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-set" data-type="function"><a href="#function-jigsass-set">jigsass-set</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-deep-has-key" data-type="function"><a href="#function-jigsass-deep-has-key">jigsass-deep-has-key</a></li><li class="sidebar__item sassdoc__item" data-name="jigsass-deep-merge" data-type="function"><a href="#function-jigsass-deep-merge">jigsass-deep-merge</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><h1 class="header__title">Jigsass-tools-maps - 0.0.0</h1><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><div class="container"><h1 id="jigsass-tools-maps">JigSass Tools Maps</h1><p><a href="https://npmjs.org/package/jigsass-tools-maps"><img src="https://badge.fury.io/js/jigsass-tools-maps.svg" alt="NPM version"></a> <a href="https://travis-ci.org/TxHawks/jigsass-tools-maps"><img src="https://travis-ci.org/TxHawks/jigsass-tools-maps.svg?branch=master" alt="Build Status"></a> <a href="https://david-dm.org/TxHawks/jigsass-tools-maps"><img src="https://david-dm.org/TxHawks/jigsass-tools-maps.svg?theme=shields.io" alt="Dependency Status"></a></p><blockquote><p>Map helper functions</p></blockquote><h2 id="installation">Installation</h2><p>Using npm:</p><pre><code class="lang-sh">npm i -S jigsass-tools-maps
+</code></pre><h2 id="usage">Usage</h2><p><code>@import &#39;path/to/jigsass-tools-maps/index.scss&#39;;</code> should give you all you need.</p><p><code>jigsass-tools-maps</code> provides the following utility functions:</p><dl><dt><strong>jigsass-get</strong></dt><dd>Get a value from nested maps</dd><dt><strong>jigsass-set</strong></dt><dd>Set a value in nested maps</dd><dt><strong>jigsass-deep-has-key</strong></dt><dd>Check if a map has a nested key</dd><dt><strong>jigsass-merge-deep</strong></dt><dd>Recursively assign values from multiple maps into a single map</dd></dl><p><strong>License:</strong> MIT</p></div></section><section class="main__section"><h1 class="main__heading" id="undefined"><div class="container">General</div></h1><section class="main__sub-section" id="undefined-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="function-jigsass-get"><h3 class="item__heading"><a class="item__name" href="#function-jigsass-get">jigsass-get</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function jigsass-get($map, $keys...) { 
+  $_value: $map;
+
+  @each $key in $keys {
+    @if (type-of($_value) == &#39;map&#39;) {
+      @if (not map-has-key($_value, $key)) {
+        @error &#39;jigsass-get: Could not find `#{$key}` in `#{inspect($_value)}`.&#39;;
+      }
+
+      $_value: map-get($_value, $key);
+    }
+
+    @else {
+      @error &#39;jigsass-get: `#{$map}` is a #{type-of($map)}, not a map.&#39;;
+    }
+  }
+
+  @return $_value;
+ }" data-collapsed="@function jigsass-get($map, $keys...) { ... }"><code>@function jigsass-get($map, $keys...) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get key values from nested maps Nesting can go as deep as needed, where keys are separated by commas.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$map</code></th><td data-label="desc"><p>Map</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$keys</code></th><td data-label="desc"><p>Key chain</p></td><td data-label="type"><code>Arglist</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline">Any type &mdash;<p>The value stored in the last key provided.</p></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>jigsass-get: Could not find <code>#{$key}</code> in <code>#{inspect($_value)}</code>.</p></li><li><p>jigsass-get: <code>#{$map}</code> is a #{type-of($map)}, not a map.</p></li></ul><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>// scss
+$typography: (
+  h1: (
+    size: 36px;
+    weight: 700;
+  );
+);
+
+.alpha {
+  font-size: js-get($typography, h1, size);
+  font-weight: js-get($typography, h1, weight);
+}</code></pre></div><div class="item__example example"><pre class="example__code language-css"><code>// css ouput
+.alpha{
+  font-size: 36px;
+  font-weight: 700;
+}</code></pre></div></section><section class="main__item container item" id="function-jigsass-set"><h3 class="item__heading"><a class="item__name" href="#function-jigsass-set">jigsass-set</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function jigsass-set($map, $keys-value......, $value) { 
+  // Extract kesy and value from arglist.
+  $value: nth($keys-value, length($keys-value));
+  $keys: ();
+
+  @for $i from 1 through length($keys-value) {
+    $keys: if($i &lt; length($keys-value), append($keys, nth($keys-value, $i)), $keys);
+  }
+
+  @if (type-of($map) != &#39;map&#39;) {
+    @error &#39;jigsass-set: `#{$map}` is a #{type-of($map)}, not a map.&#39;;
+  }
+
+  $maps: ($map,);
+  $result: null;
+
+  // If $keys is a single key
+  // Just merge and return
+  @if length($keys) == 1 {
+    @return map-merge($map, (nth($keys, 1): $value));
+  }
+
+
+  // Loop from the first to last key n $keys
+  // Store the associated map to this key in the $maps list
+  @for $i from 1 through length($keys) - 1 {
+    $current-key: nth($keys, $i);
+    $current-map: nth($maps, -1);
+    $current-get: map-get($current-map, $current-key);
+
+    @if $current-get == null {
+      $current-get: ();
+    }
+
+    $maps: append($maps, $current-get);
+  }
+
+  // Loop from the last map to the first one
+  // Merge it with the previous one
+  @for $i from length($maps) through 1 {
+    $current-map: nth($maps, $i);
+    $current-key: nth($keys, $i);
+    $current-val: if($i == length($maps), $value, $result);
+    $result: map-merge($current-map, ($current-key: $current-val));
+  }
+
+  // Return result
+  @return $result;
+ }" data-collapsed="@function jigsass-set($map, $keys-value......, $value) { ... }"><code>@function jigsass-set($map, $keys-value......, $value) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Set a value of a key in a nested map. Nesting can go as deep as needed.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$map</code></th><td data-label="desc"><p>The parent map in which keys and values will be set in.</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$keys-value...</code></th><td data-label="desc"><p>A comma-seperated list of keys to denote nesting hierarchy.</p></td><td data-label="type"><code>Arglist</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$value</code></th><td data-label="desc"><p>The value to assign to the last key in <code>$keys</code></p></td><td data-label="type"><code>Any</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Map</code></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>jigsass-set: <code>#{$map}</code> is a #{type-of($map)}, not a map.</p></li></ul><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>// Input:
+$map: (
+  key1: (
+    key2: (
+      existing-key: existing-value,
+    ),
+  ),
+);
+$map: jigsass-set($map, key1, key2, new-key, new-value);
+
+// Outcome:
+$map: (
+  key1: (
+    key2: (
+      existing-key: existing-value,
+      new-key: new-value,
+    ),
+  ),
+);</code></pre></div></section><section class="main__item container item" id="function-jigsass-deep-has-key"><h3 class="item__heading"><a class="item__name" href="#function-jigsass-deep-has-key">jigsass-deep-has-key</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function jigsass-deep-has-key($map, $key...) { 
+  @each $key in $keys {
+    @if (not map-has-key($map, $key)) {
+      @return false;
+    }
+
+    $map: map-get($map, $key);
+  }
+
+  @return true;
+ }" data-collapsed="@function jigsass-deep-has-key($map, $key...) { ... }"><code>@function jigsass-deep-has-key($map, $key...) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Checks whether a map has a value associated with a given nested key.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$map</code></th><td data-label="desc"><p>The map to search in</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$key</code></th><td data-label="desc"><p>the key hierarchy to look for</p></td><td data-label="type"><code>Arglist</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Boolean</code></div></section><section class="main__item container item" id="function-jigsass-deep-merge"><h3 class="item__heading"><a class="item__name" href="#function-jigsass-deep-merge">jigsass-deep-merge</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function jigsass-deep-merge($sources...) { 
+  @if type-of($map) != map {
+    @error &#39;jigsass-deep-merge: Only maps can be merged into, &#39; +
+      &#39;but `#{inspect($map)}` is a #{type-of($map)}.&#39;;
+  }
+
+  @each $source in $sources {
+    @if type-of($source) != map {
+      @error &#39;jigsass-deep-merge: Only maps can be merged, &#39; +
+        &#39;but `#{inspect($source)}` is a #{type-of($source)}.&#39;;
+    }
+
+    // If in deep mode, loop through all tuples in current map
+    @each $key, $value in $source {
+
+      // If value is a nested map and same key from map is a nested map as well
+      @if type-of($value) == map and type-of(map-get($map, $key)) == map {
+        // Recursive extend
+        $value: jigsass-deep-merge(map-get($map, $key), $value);
+      }
+
+      // Merge current tuple with map
+      $map: map-merge($map, ($key: $value));
+    }
+  }
+
+  @return $map;
+ }" data-collapsed="@function jigsass-deep-merge($sources...) { ... }"><code>@function jigsass-deep-merge($sources...) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Recursively assign values from multiple maps into a single map.</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter</span>Name</th><th scope="col"><span class="visually-hidden">parameter</span>Description</th><th scope="col"><span class="visually-hidden">parameter</span>Type</th><th scope="col"><span class="visually-hidden">parameter</span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$sources</code></th><td data-label="desc"><p>Sources to be merged into a single <code>$map</code>.</p></td><td data-label="type"><code>Arglist</code></td><td data-label="default">&mdash;<span class="visually-hidden">none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Map</code></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>jigsass-deep-merge: Only maps can be merged into,</p></li><li><p>jigsass-deep-merge: Only maps can be merged,</p></li></ul></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --><span class="project-info__name">Jigsass-tools-maps</span><!-- Version --> <span class="project-info__version">- v0.0.0</span><!-- License --> <span class="project-info__license">, under MIT</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>
