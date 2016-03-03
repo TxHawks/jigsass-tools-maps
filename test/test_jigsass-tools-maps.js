@@ -93,4 +93,16 @@ describe('jigsass-tools-maps', () => {
       });
     });
   });
+
+  describe('jigsass-deep-has-key', () => {
+    const sassaby = new Sassaby(file, {
+      variables: {
+        'map': '(string: l1-string, l2: (l3: (string: l3-string)))',
+      },
+    });
+
+    it('Found a nested key', () => {
+      sassaby.func('jigsass-deep-has-key').calledWithArgs('$map','l2','l3', 'string').isTrue();
+    });
+  });
 });
