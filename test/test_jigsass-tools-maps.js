@@ -46,4 +46,51 @@ describe('jigsass-tools-maps', () => {
       });
     });
   });
+
+  describe('jigsass-set', () => {
+    const sassaby = new Sassaby(file, {
+      variables: {
+        'map': '(l2: (l3: (string: l3-string)))',
+      },
+    });
+
+    it('Set a top level key', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-set($map, new-key, new-value)')
+        .equals('(l2:(l3:(string:l3-string)),new-key:new-value)');
+    });
+    it('Set a nested key', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-set($map, l2, new-key, new-value)')
+        .equals('(l2:(l3:(string:l3-string),new-key:new-value))');
+    });
+    it('Set nested keys', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-set($map, l2, new-key, another-key, new-value)')
+        .equals('(l2:(l3:(string:l3-string),new-key:(another-key:new-value)))');
+    });
+
+    describe('Overwriting keys', () => {
+      it('Overwrote an existing top level key', () => {
+        sassaby.func('inspect')
+          .calledWithArgs('jigsass-set($map, l2, overwritten)')
+          .equals('(l2:overwritten)');
+      });
+      it('Overwrote an existing nested key', () => {
+        sassaby.func('inspect')
+          .calledWithArgs('jigsass-set($map, l2, l3, overwritten)')
+          .equals('(l2:(l3:overwritten))');
+      });
+    });
+
+    describe('Errors', () => {
+      it('Threw an error when `$map` is not a map', () => {
+        assert.throws(() => {
+          sassaby.func('jigsass-set').calledWithArgs('some-string','l2', 'bogous');
+        },
+        /Error: jigsass-set: `some-string` is a string, not a map./,
+        'It didn\'t throw...');
+      });
+    });
+  });
 });
