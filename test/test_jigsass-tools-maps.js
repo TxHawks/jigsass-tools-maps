@@ -105,4 +105,64 @@ describe('jigsass-tools-maps', () => {
       sassaby.func('jigsass-deep-has-key').calledWithArgs('$map','l2','l3', 'string').isTrue();
     });
   });
+
+  describe('jigsass-merge-deep', () => {
+    const expectedMultipleSources = `(string:l1-string,l2:(l3:(string:l3-string),overwrite:overwritten,new-key:new-value),l2-source1:(string:source1-string,source1-key:value))`;
+
+    const expectedSingleSource = `(string:l1-string,l2:(l3:(string:l3-string),overwrite:original),l2-source1:(string:source1-string,source1-key:value))`;
+
+    const sassaby = new Sassaby(file, {
+      variables: {
+        'map': `(
+          string: l1-string,
+          l2: (
+            l3: (string: l3-string),
+            overwrite: original,
+          ),
+        )`,
+        'source1': `(
+          l2-source1: (
+            string: source1-string,
+            source1-key: value,
+          ),
+        )`,
+        'source2': `(
+          l2: (
+            new-key: new-value,
+            overwrite: overwritten,
+          ),
+        )`,
+      },
+    });
+
+    it('Correctly merged two nested maps', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-deep-merge($map, $source1)')
+        .equals(expectedSingleSource);
+    });
+    it('Correctly merged multiple nested maps', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-deep-merge($map, $source1, $source2)')
+        .equals(expectedMultipleSources);
+    });
+
+
+    describe('Errors', () => {
+      it('Threw an error when trying to merge into something that is not a is not a map', () => {
+        assert.throws(() => {
+          sassaby.func('jigsass-deep-merge').calledWithArgs('some-string','(l2: bogous)');
+        },
+        /Error: jigsass-deep-merge: Only maps can be merged into, but `some-string` is a string./,
+        'It didn\'t throw...');
+      });
+
+      it('Threw an error when trying to merge something that is not a is not a map', () => {
+        assert.throws(() => {
+          sassaby.func('jigsass-deep-merge').calledWithArgs('$map','bogous');
+        },
+        /Error: jigsass-deep-merge: Only maps can be merged, but `bogous` is a string./,
+        'It didn\'t throw...');
+      });
+    });
+  });
 });
