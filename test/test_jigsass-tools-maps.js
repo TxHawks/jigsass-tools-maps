@@ -69,6 +69,11 @@ describe('jigsass-tools-maps', () => {
         .calledWithArgs('jigsass-set($map, l2, new-key, another-key, new-value)')
         .equals('(l2:(l3:(string:l3-string),new-key:(another-key:new-value)))');
     });
+    it('Set a key in an empty list', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-set((), l2, new-key, another-key, new-value)')
+        .equals('(l2:(new-key:(another-key:new-value)))');
+    });
 
     describe('Overwriting keys', () => {
       it('Overwrote an existing top level key', () => {
@@ -84,7 +89,7 @@ describe('jigsass-tools-maps', () => {
     });
 
     describe('Errors', () => {
-      it('Threw an error when `$map` is not a map', () => {
+      it('Threw an error when `$map` is not a map or an empty list', () => {
         assert.throws(() => {
           sassaby.func('jigsass-set').calledWithArgs('some-string','l2', 'bogous');
         },
