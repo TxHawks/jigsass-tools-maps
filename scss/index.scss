@@ -197,14 +197,18 @@
 /// ---
 @function jigsass-deep-merge($map, $sources...) {
   @if type-of($map) != map {
-    @error 'jigsass-deep-merge: Only maps can be merged into, ' +
-      'but `#{inspect($map)}` is a #{type-of($map)}.';
+    @if (not (type-of($map) == 'list' and length($map) == 0)) {
+      @error 'jigsass-deep-merge: Only maps can be merged into, ' +
+        'but `#{inspect($map)}` is a #{type-of($map)}.';
+    }
   }
 
   @each $source in $sources {
     @if type-of($source) != map {
-      @error 'jigsass-deep-merge: Only maps can be merged, ' +
-        'but `#{inspect($source)}` is a #{type-of($source)}.';
+      @if (not (type-of($source) == 'list' and length($source) == 0)) {
+        @error 'jigsass-deep-merge: Only maps can be merged, ' +
+          'but `#{inspect($source)}` is a #{type-of($source)}.';
+      }
     }
 
     @each $key, $value in $source {
