@@ -140,6 +140,18 @@ describe('jigsass-tools-maps', () => {
       },
     });
 
+    it('Allows merging in an empty list', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-deep-merge((one: two), ())')
+        .equals('(one:two)');
+    });
+
+    it('Allows merging to an empty list', () => {
+      sassaby.func('inspect')
+        .calledWithArgs('jigsass-deep-merge((), (one: two))')
+        .equals('(one:two)');
+    });
+
     it('Correctly merged two nested maps', () => {
       sassaby.func('inspect')
         .calledWithArgs('jigsass-deep-merge($map, $source1)')
