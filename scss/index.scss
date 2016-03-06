@@ -112,7 +112,9 @@
   }
 
   @if (type-of($map) != 'map') {
-    @error 'jigsass-set: `#{$map}` is a #{type-of($map)}, not a map.';
+    @if (not (type-of($map) == 'list' and length($map) == 0)) {
+      @error 'jigsass-set: `#{$map}` is a #{type-of($map)}, not a map.';
+    }
   }
 
   $maps: ($map,);
@@ -205,16 +207,11 @@
         'but `#{inspect($source)}` is a #{type-of($source)}.';
     }
 
-    // If in deep mode, loop through all tuples in current map
     @each $key, $value in $source {
-
-      // If value is a nested map and same key from map is a nested map as well
       @if type-of($value) == map and type-of(map-get($map, $key)) == map {
-        // Recursive extend
         $value: jigsass-deep-merge(map-get($map, $key), $value);
       }
 
-      // Merge current tuple with map
       $map: map-merge($map, ($key: $value));
     }
   }
