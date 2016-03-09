@@ -3,8 +3,6 @@
 // # jigsass-tools-maps
 // -> Map helper functions
 //
-// Author: TxHawks (tofu.hawks@gmail.com)
-//
 // *************************************
 
 @charset 'UTF-8';
@@ -127,7 +125,7 @@
   }
 
 
-  // Loop from the first to last key n $keys
+  // Loop from the first to last key in $keys
   // Store the associated map to this key in the $maps list
   @for $i from 1 through length($keys) - 1 {
     $current-key: nth($keys, $i);
