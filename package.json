@@ -4,7 +4,7 @@
     "name": "TxHawks",
     "email": "tofu.hawks@gmail.com"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.scss",
   "files": [
     "scss"
@@ -37,9 +37,9 @@
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.3.3",
-    "babel-core": "^6.7.0",
+    "babel-core": "^6.7.2",
     "babel-preset-es2015": "^6.5.0",
-    "babel-register": "^6.6.5",
+    "babel-register": "^6.7.2",
     "browser-sync": "^2.11.1",
     "chai": "^3.5.0",
     "del": "^2.2.0",
@@ -59,7 +59,7 @@
     "sassaby": "^2.1.1",
     "sassdoc": "^2.1.20",
     "sassdoc-theme-jigsass": "^0.2.12",
-    "stylelint": "^4.5.1"
+    "stylelint": "^5.0.1"
   },
   "description": "Map helper functions",
   "license": "MIT"
