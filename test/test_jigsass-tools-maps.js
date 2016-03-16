@@ -25,13 +25,25 @@ describe('jigsass-tools-maps', () => {
     });
 
     describe('Errors', () => {
-      it('Threw an error when `$map` is not a map', () => {
+      it('Threw an error when `$map` is not a map or an empty list', () => {
         assert.throws(() => {
           sassaby.func('jigsass-get').calledWithArgs('some-string','l2', 'bogous');
         },
         /Error: jigsass-get: `some-string` is a string, not a map./,
         'It didn\'t throw...');
       });
+
+      it('Threw an error when `$map` is a populated list', () => {
+        assert.throws(() => {
+          sassaby.func('jigsass-get').calledWithArgs('item1 item2','l2', 'bogous');
+        },
+        /Error: jigsass-get: `item1 item2` is a list, not a map./,
+        'It didn\'t throw...');
+      });
+
+      it('Didn\'t throw when `$map` is an empty list', () => {
+        sassaby.func('jigsass-get').calledWithArgs('()', 'string, bogus, tragic').isFalsy();
+    });
     });
   });
 
