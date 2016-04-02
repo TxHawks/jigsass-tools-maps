@@ -5,7 +5,8 @@
     "email": "tofu.hawks@gmail.com"
   },
   "version": "1.0.5",
-  "main": "index.scss",
+  "main": "scss/index.scss",
+  "style": "scss/index.scss",
   "files": [
     "scss"
   ],
