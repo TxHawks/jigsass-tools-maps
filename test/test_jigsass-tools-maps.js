@@ -16,6 +16,11 @@ describe('jigsass-tools-maps', () => {
       sassaby.func('jigsass-get').calledWithArgs('$map', 'string').equals('l1-string');
     });
 
+    it('Returned null if `$map` is an empty list', () => {
+      sassaby.func('jigsass-get').calledWithArgs('()', 'string, bogus, tragic').isFalsy();
+    });
+
+
     it('Returned null if a key in the chain does not exist', () => {
       sassaby.func('jigsass-get').calledWithArgs('$map', 'string, bogus, tragic').isFalsy();
     });

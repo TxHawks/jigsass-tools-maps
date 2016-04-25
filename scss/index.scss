@@ -44,16 +44,14 @@
   @if (type-of($map) != 'map' and length($map) > 0) {
     @error 'jigsass-get: `#{$map}` is a #{type-of($map)}, not a map.';
   }
-  $_last-key: nth($keys, -1);
   $_value: $map;
-
 
   @each $key in $keys {
     @if (type-of($_value) == 'map') {
       $_value: map-get($_value, $key);
     }
-    @else if ($key != $_last-key) {
-      $_value: null;
+    @else {
+      @return null;
     }
   }
 
